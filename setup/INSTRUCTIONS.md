@@ -31,6 +31,25 @@ uv --version
 
 On a PC, if `npm --version` says running scripts is disabled on this system, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` and try again.
 
+### If you manage Python with pyenv (PC)
+
+With pyenv-win you can install uv into each pyenv Python with pip, in place of the installer in step 4. In PowerShell:
+
+1. List your versions with `pyenv versions`.
+
+2. Install uv into each one, changing the version numbers to yours:
+
+   ```
+   $root = "$env:USERPROFILE\.pyenv\pyenv-win\versions"
+   foreach ($v in "3.11.4","3.12.9") { & "$root\$v\python.exe" -m pip install --upgrade uv }
+   ```
+
+3. Run `pyenv rehash` so pyenv creates the `uv` shim.
+
+4. Check with `uv --version`. To check one version, run `& "$root\3.12.9\python.exe" -m uv --version`.
+
+The `uv` command runs the copy in whichever Python pyenv has active, which in this repo is the one in `.python-version`. When you add another Python with pyenv, repeat steps 2 and 3 for it.
+
 ### Add the VS Code extensions
 
 Open the Extensions view (Ctrl+Shift+X on a PC, Cmd+Shift+X on a Mac) and install **Python** and **Jupyter**, both from Microsoft.
